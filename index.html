@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HIMA RPL UDN - Cyber Tech Edition</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<style>
+*{ margin:0; padding:0; box-sizing:border-box; scroll-behavior:smooth; }
+body{ background:#050816; color:#00f0ff; font-family:'Share Tech Mono', monospace; }
+
+/* NAVBAR */
+nav{ position:fixed; top:0; width:100%; padding:15px 8%; display:flex; justify-content:space-between; align-items:center; background:rgba(0,0,0,0.8); backdrop-filter:blur(10px); z-index:999; }
+nav h2{ font-family:'Orbitron', sans-serif; color:#00f0ff; }
+nav ul{ display:flex; list-style:none; gap:25px; }
+nav ul li a{ color:#00f0ff; text-decoration:none; transition:0.3s; }
+nav ul li a:hover{ color:#ff00ff; }
+
+/* HERO DENGAN VIDEO BACKGROUND */
+.hero{ height:100vh; position: relative; display:flex; align-items:center; justify-content:center; text-align:center; padding:0 10%; overflow: hidden; background: #000; }
+
+.video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill; 
+    z-index: 2;
+    opacity: 0.7;
+}
+
+#matrixCanvas { 
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    z-index: 1; 
+    opacity: 0.7; 
+}
+
+.hero-content { 
+    position: relative; 
+    z-index: 3;
+}
+
+.glitch{ font-size:45px; font-family:'Orbitron', sans-serif; position:relative; color:#00f0ff; line-height: 1.3; text-shadow: 0 0 10px rgba(0, 240, 255, 0.7); }
+
+/* SECTION GLOBAL */
+section{ padding:80px 10%; background:#050816; position: relative; z-index: 5; overflow: hidden; }
+
+/* REVISI: Section Dosen dibuat Full Width */
+#dosen { padding: 80px 2%; } /* Padding kiri-kanan dikecilkan agar kotak melebar ke ujung */
+
+.rainbow-section { background: #000 !important; }
+.rainbowCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; opacity: 0.35; }
+.container-content { position: relative; z-index: 2; }
+
+/* CARD SYSTEM */
+.card-container { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; padding: 20px 0; }
+.card { background: rgba(0, 0, 0, 0.75); border: 1px solid #00ffff; border-radius: 12px; padding: 20px; text-align: center; box-sizing: border-box; transition: 0.4s; backdrop-filter: blur(8px); }
+.card:hover { box-shadow: 0 0 20px #ff00ff; transform: translateY(-10px); border-color: #ff00ff; }
+
+/* PENYESUAIAN TEKS DOSEN: Menambahkan pengaturan font agar muat 50 karakter */
+#dosen .card h3 { 
+    font-size: 0.85rem; 
+    margin-bottom: 8px; 
+    word-break: break-word; 
+    line-height: 1.2;
+}
+#dosen .card p { 
+    font-size: 0.7rem; 
+    word-break: break-word; 
+    line-height: 1.1;
+}
+
+.card img { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; border: 3px solid #00ffff; object-fit: cover; }
+.wa-btn { display: inline-block; margin-top: 10px; padding: 8px 15px; border: 1px solid #25D366; color:#25D366; text-decoration:none; border-radius:5px; font-size:0.85rem; transition:0.3s; }
+.wa-btn:hover { background:#25D366; color:#000; }
+
+#struktur .card { flex: 0 1 calc(32% - 20px); min-width: 280px; }
+
+/* REVISI: Kartu Dosen dipaksa 5 per baris dengan presisi */
+#dosen .card { flex: 0 1 calc(19% - 15px); min-width: 180px; }
+
+/* FOOTER */
+footer { background: #000; text-align: center; padding: 60px 8%; border-top: 1px solid #00f0ff; position: relative; z-index: 10; }
+.foto-jejer-footer { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 40px; width: 100%; }
+.foto-item { flex: 1; max-width: calc(10% - 9px); }
+.foto-item img { width: 100%; aspect-ratio: 1/1; border-radius: 8px; border: 1px solid #00ffff; object-fit: cover; transition: 0.3s; }
+.foto-item img:hover { filter: drop-shadow(0 0 10px #ff00ff); transform: scale(1.1); border-color: #ff00ff; }
+.footer-text h3 { margin-bottom: 10px; color: #00f0ff; font-family: 'Orbitron'; font-size: 1.2rem; }
+.footer-text p { color: #aaa; margin-bottom: 5px; font-size: 0.9rem; }
+
+@media (max-width: 1024px) {
+    .foto-jejer-footer { flex-wrap: wrap; justify-content: center; }
+    .foto-item { flex: 0 1 calc(20% - 10px); max-width: none; }
+    #dosen .card { flex: 0 1 calc(45% - 15px); } 
+}
+
+@media (max-width: 600px) {
+    .foto-item { flex: 0 1 calc(33.33% - 10px); }
+    #struktur .card, #dosen .card { flex: 0 1 100%; } 
+    .glitch { font-size: 28px; }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+<h2>HIMA RPL UDN</h2>
+<ul>
+<li><a href="#home">Home</a></li>
+<li><a href="#struktur">Struktur</a></li>
+<li><a href="#dosen">Dosen</a></li>
+<li><a href="#kontak">Kontak</a></li>
+</ul>
+</nav>
+
+<section class="hero" id="home">
+    <video class="video-bg" autoplay loop muted playsinline>
+        <source src="image/vidio_atsuma.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <canvas id="matrixCanvas"></canvas>
+</section>
+
+<section id="struktur" class="rainbow-section">
+  <canvas class="rainbowCanvas"></canvas>
+  <div class="container-content">
+      <h2 data-aos="fade-up" style="text-align: center; color: #00ffff; margin-bottom: 30px; font-family: 'Orbitron';">Struktur Pimpinan</h2>
+      <div class="card-container">
+        <div class="card" data-aos="flip-left"><img src="image/kaprodi _rpl_atsuma.png"><h3>Azrul Azmani, M.M.</h3><p>Kaprodi RPL</p><a class="wa-btn" href="https://wa.me/6281511152011?text=Assalamu'alaikum%20Ustadz%20Azrul,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/Bem_udn.png"><h3>Muhammad Maulana Ihsan</h3><p>Ketua BEM</p><a class="wa-btn" href="https://wa.me/6285871731383?text=Assalamu'alaikum%20Ketua%20BEM,%20saya%20mahasiswa%20izin%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/atsuma_HIMA (2).jpg"><h3>???</h3><p>Ketua HIMA RPL</p><a class="wa-btn" href="https://wa.me/62895359713309?text=Assalamu'alaikum%20ketua%20HIMA%20RPL,%20saya%20mahasiswa%20izin%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/4b.jpg.jpg"><h3>Muhammad Diaz Nugroho</h3><p>Ketua Kelas Pagi</p><a class="wa-btn" href="https://wa.me/628519799828?text=Assalamu'alaikum%20ketua%20Diaz,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/4aa.jpg"><h3>Alfana Azizah</h3><p>Ketua Kelas Sore & Hybrid</p><a class="wa-btn" href="https://wa.me/6285788746977?text=Assalamu'alaikum%20ketua%20Alfana,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+      </div>
+  </div>
+</section>
+
+<section id="dosen" class="rainbow-section">
+  <canvas class="rainbowCanvas"></canvas>
+  <div class="container-content">
+      <h2 data-aos="fade-up" style="text-align: center; color: #00ffff; margin-bottom: 30px; font-family: 'Orbitron';">Dosen & Mata Kuliah</h2>
+      <div class="card-container">
+        <div class="card" data-aos="flip-left"><img src="image/kecerdasan _buatan_atsuma.png"><h3>KECERDASAN BUATAN</h3><p>Tutik Lestari, S.Si., M.Kom.</p><a class="wa-btn" href="https://wa.me/6285714058340?text=Assalamu'alaikum%20Ustadzah%20Tutik,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/Basis_data_atsuma.png"><h3>BASIS DATA</h3><p>Masrurin Masad, M.Kom.</p><a class="wa-btn" href="https://wa.me/6283894324278?text=Assalamu'alaikum%20Ustadz%20Masrurin,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/kontruksi_perangkat_lunak_atsuma.png"><h3>KONSTRUKSI PERANGKAT LUNAK</h3><p>Supriadi Panggabean, S.Kom., M.Pd., M.Kom</p><a class="wa-btn" href="https://wa.me/6281212900840?text=Assalamu'alaikum%20Ustadz%20Adi,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/Pemrograman _Visual_atsuma.png"><h3>PEMROGRAMAN VISUAL</h3><p>Ija Sujida, S.Kom.</p><a class="wa-btn" href="https://wa.me/6285758077322?text=Assalamu'alaikum%20Ustadz%20Ija,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/pratikum_pemrograman_web1_atsuma.png"><h3>PEMROGRAMAN WEB 1</h3><p>Didi Suhaedi, S.Kom.</p><a class="wa-btn" href="https://wa.me/6285718422345?text=Assalamu'alaikum%20Ustadz%20Didi,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/praktikum_ basis_data_atsuma.png"><h3>PRATIKUM BASIS DATA</h3><p>Masrurin Masad, M.Kom.</p><a class="wa-btn" href="https://wa.me/6283894324278?text=Assalamu'alaikum%20Ustadz%20Masrurn,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/Pemrograman _Visual_atsuma.png"><h3>PRATIKUM VISUAL</h3><p>Ija Sujida, S.Kom.</p><a class="wa-btn" href="https://wa.me/6281511152011?text=Assalamu'alaikum%20Ustadz%20Azrul,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/pratikum_pemrograman_web1_atsuma.png"><h3>PRATIKUM WEB 1</h3><p>Didi Suhaedi, S.Kom.</p><a class="wa-btn" href="https://wa.me/625718422345?text=Assalamu'alaikum%20Ustadz%20Didi,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/saintek_al-qur_an_hadits_atsuma.png"><h3>SAINTEK QURAN HADITS</h3><p>Anas Fauzi, M.Pd.</p><a class="wa-btn" href="https://wa.me/6285775047282?text=Assalamu'alaikum%20Ustadz%20Anas,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+        <div class="card" data-aos="flip-left"><img src="image/sistem_terdistribusi_atsuma.png"><h3>SISTEM DISTRIBUSI</h3><p>Ina Ristiana, M.Kom.</p><a class="wa-btn" href="https://wa.me/6281539865505?text=Assalamu'alaikum%20Ustadzah%20Ina,%20saya%20mahasiswa%20RPL%20ingin%20berkonsultasi">WhatsApp</a></div>
+      </div>
+  </div>
+</section>
+
+<footer id="kontak">
+  <div class="footer-content">
+      <div class="foto-jejer-footer" data-aos="fade-up">
+          <div class="foto-item"><img src="image/library_atsuma.jpg"></div>
+          <div class="foto-item"><img src="image/Semester ___2_atsuma.jpg"></div>
+          <div class="foto-item"><img src="image/eskalator_atsuma.jpg"></div>
+          <div class="foto-item"><img src="image/Semester ___2_atsuma.jpg"></div>
+          <div class="foto-item"><img src="image/kiri_atsuma.png"></div>
+          <div class="foto-item"><img src="image/kanan_atsuma.png"></div>
+          <div class="foto-item"><img src="image/Semester ___2_atsuma.jpg"></div>
+          <div class="foto-item"><img src="image/hacktiv_atsuma.jpg"></div>
+          <div class="foto-item"><img src="image/Semester ___2_atsuma.jpg"></div>
+          <div class="foto-item"><img src="image/library2_atsuma.jpg"></div>
+      </div>
+      <div class="footer-text">
+          <h3>Himpunan Mahasiswa Rekayasa Perangkat Lunak Universitas Darunnajah Jakarta</h3>
+          <p>© 2024–2028 All Rights Reserved</p>
+          <p>Developed by <strong>Ateng Sulaeman</strong> & <strong>Alfia Maritza</strong></p>
+      </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 1200, once: true });
+
+  const charArr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789$+-*/=%\"'#&_(),.;:?!\\|{}<>[]";
+  const fontSize = 16;
+
+  // 1. GREEN MATRIX (HOME)
+  const homeCanvas = document.getElementById('matrixCanvas');
+  const homeCtx = homeCanvas.getContext('2d');
+  homeCanvas.width = window.innerWidth;
+  homeCanvas.height = window.innerHeight;
+  let homeDrops = Array(Math.floor(homeCanvas.width / fontSize)).fill(1);
+
+  function drawGreenMatrix() {
+    homeCtx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    homeCtx.fillRect(0, 0, homeCanvas.width, homeCanvas.height);
+    homeCtx.fillStyle = "#0F0";
+    homeCtx.font = fontSize + "px 'Share Tech Mono'";
+    homeDrops.forEach((y, i) => {
+      const text = charArr[Math.floor(Math.random() * charArr.length)];
+      homeCtx.fillText(text, i * fontSize, y * fontSize);
+      if (y * fontSize > homeCanvas.height && Math.random() > 0.975) homeDrops[i] = 0;
+      homeDrops[i]++;
+    });
+  }
+
+  // 2. RAINBOW MATRIX (STRUKTUR & DOSEN)
+  const rainbowCanvases = document.querySelectorAll('.rainbowCanvas');
+  let hue = 0;
+
+  function setupRainbowCanvases() {
+    rainbowCanvases.forEach(canvas => {
+      canvas.width = canvas.parentElement.offsetWidth;
+      canvas.height = canvas.parentElement.offsetHeight;
+      canvas.drops = Array(Math.floor(canvas.width / fontSize)).fill(1);
+    });
+  }
+  setupRainbowCanvases();
+
+  function drawRainbowMatrix() {
+    rainbowCanvases.forEach(canvas => {
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.fillStyle = `hsl(${hue}, 100%, 50%)`;
+      ctx.font = fontSize + "px 'Share Tech Mono'";
+      canvas.drops.forEach((y, i) => {
+        const text = charArr[Math.floor(Math.random() * charArr.length)];
+        ctx.fillText(text, i * fontSize, y * fontSize);
+        if (y * fontSize > canvas.height && Math.random() > 0.975) canvas.drops[i] = 0;
+        canvas.drops[i]++;
+      });
+    });
+    hue = (hue + 1) % 360;
+  }
+
+  function animate() {
+    drawGreenMatrix();
+    drawRainbowMatrix();
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  window.addEventListener('resize', () => {
+    homeCanvas.width = window.innerWidth;
+    homeCanvas.height = window.innerHeight;
+    homeDrops = Array(Math.floor(homeCanvas.width / fontSize)).fill(1);
+    setupRainbowCanvases();
+  });
+</script>
+
+</body>
+</html>
